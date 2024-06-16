@@ -7,7 +7,7 @@ import useItemStore from '../store/useItemStore';
 const Main = () => {
   const [searchedItem, setSearchedItem] = useState<string>('');
   const [isGridView, setIsGridView] = useState<boolean>(true);
-  const { getItems } = useItemStore();
+  const { getItems, subscribeItems } = useItemStore();
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchedItem(e.target.value);
@@ -20,6 +20,10 @@ const Main = () => {
   useEffect(() => {
     getItems();
   }, []);
+
+  useEffect(() => {
+    subscribeItems();
+  }, [subscribeItems]);
 
   return (
     <div className="w-full flex flex-col items-start p-5 gap-5 mt-16">

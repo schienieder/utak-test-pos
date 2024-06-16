@@ -4,7 +4,8 @@ import useItemStore, { ItemShape } from '../store/useItemStore';
 import { BeatLoader } from 'react-spinners';
 
 const MyTable = () => {
-  const { posItems, isItemsLoading } = useItemStore();
+  const { posItems, isItemsLoading, setCurrentItem, deleteItem } =
+    useItemStore();
 
   if (isItemsLoading) {
     return (
@@ -39,7 +40,10 @@ const MyTable = () => {
               <tbody className="font-medium text-gray-800">
                 {posItems.map((item: ItemShape, index: number) => {
                   return (
-                    <tr className="border-b border-neutral-200 hover:bg-gray-100">
+                    <tr
+                      key={`table-item-${item.itemName}-${index}`}
+                      className="border-b border-neutral-200 hover:bg-gray-100"
+                    >
                       <td className="whitespace-nowrap px-6 py-4">
                         {item.itemCategory}
                       </td>
@@ -47,7 +51,7 @@ const MyTable = () => {
                         {item.itemName}
                       </td>
                       <td className="whitespace-nowrap px-6 py-4">
-                        {item.itemOptions ?? ''}
+                        {item.itemOptions.length > 0 ? item.itemOptions : '-'}
                       </td>
                       <td className="whitespace-nowrap px-6 py-4">
                         PHP {item.itemPrice}
@@ -59,7 +63,10 @@ const MyTable = () => {
                         {item.itemStock}
                       </td>
                       <td className="whitespace-nowrap px-6 py-4 flex gap-x-5">
-                        <button className="p-2 rounded-lg bg-orange-500 hover:brightness-90">
+                        <button
+                          className="p-2 rounded-lg bg-orange-500 hover:brightness-90"
+                          onClick={() => setCurrentItem(item)}
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -75,7 +82,10 @@ const MyTable = () => {
                             />
                           </svg>
                         </button>
-                        <button className="p-2 rounded-lg bg-orange-500 hover:brightness-90">
+                        <button
+                          className="p-2 rounded-lg bg-orange-500 hover:brightness-90"
+                          onClick={() => deleteItem(item.itemId!)}
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"

@@ -3,24 +3,36 @@ import MyInput from './MyInput';
 import useItemStore from '../store/useItemStore';
 
 const ItemBuilder = () => {
-  const { currentItem, onChangeItemValue, createNewItem } = useItemStore();
+  const {
+    currentItem,
+    isEditing,
+    onChangeItemValue,
+    createNewItem,
+    cancelEditItem,
+    updateItem,
+  } = useItemStore();
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     onChangeItemValue(name, value);
   };
 
-  const onCreateNewItem = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitItem = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isEditing) {
+      updateItem();
+      return;
+    }
+
     createNewItem();
   };
 
   return (
     <form
       className="h-screen w-full bg-white shadow p-5 flex flex-col gap-y-8 text-gray-800"
-      onSubmit={onCreateNewItem}
+      onSubmit={onSubmitItem}
     >
-      <h4 className="text-2xl font-black">Add Item</h4>
+      <h4 className="text-2xl font-black">{isEditing ? 'Edit' : 'Add'} Item</h4>
       <MyInput
         label="Category"
         type="text"
@@ -74,8 +86,17 @@ const ItemBuilder = () => {
         type="submit"
         className="w-full bg-orange-500 hover:brightness-90 px-3 py-2 text-white font-bold rounded-lg tracking-wider"
       >
-        Create Item
+        {isEditing ? 'Update' : 'Create'} Item
       </button>
+      {isEditing && (
+        <button
+          type="button"
+          className="-mt-3 w-full bg-gray-200/70 hover:brightness-90 px-3 py-2 text-orange-500 font-bold rounded-lg tracking-wider"
+          onClick={cancelEditItem}
+        >
+          Cancel
+        </button>
+      )}
     </form>
   );
 };

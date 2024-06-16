@@ -19,7 +19,9 @@ const MyGridItems = () => {
   return (
     <div className="w-full grid grid-cols-3 gap-8">
       {posItems.map((item: ItemShape, index: number) => {
-        return <MyGridItem key={`${item.itemName}-${index}`} item={item} />;
+        return (
+          <MyGridItem key={`grid-item-${item.itemName}-${index}`} item={item} />
+        );
       })}
     </div>
   );
