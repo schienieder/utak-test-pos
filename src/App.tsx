@@ -1,7 +1,18 @@
-import React from "react";
+import React from 'react';
+import MySideBar from './components/MySideBar';
+import Main from './components/Main';
+import ItemBuilder from './components/ItemBuilder';
 
-function App() {
-  return <h4 className="text-4xl font-mono">Hello World!</h4>;
-}
+const App = () => {
+  return (
+    <div className="min-h-screen w-full overflow-hidden bg-gray-100 grid grid-cols-custom gap-8 font-mont">
+      <MySideBar />
+      {/* MAIN CONTENT */}
+      <Main />
+      {/* MENU BUILDER */}
+      <ItemBuilder />
+    </div>
+  );
+};
 
 export default App;
