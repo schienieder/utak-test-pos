@@ -7,10 +7,11 @@ import useItemStore from '../store/useItemStore';
 const Main = () => {
   const [searchedItem, setSearchedItem] = useState<string>('');
   const [isGridView, setIsGridView] = useState<boolean>(true);
-  const { getItems, subscribeItems } = useItemStore();
+  const { getItems, subscribeItems, searchItems } = useItemStore();
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchedItem(e.target.value);
+    searchItems(e.target.value);
   };
 
   const onChangeView = () => {

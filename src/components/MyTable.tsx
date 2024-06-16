@@ -4,7 +4,7 @@ import useItemStore, { ItemShape } from '../store/useItemStore';
 import { BeatLoader } from 'react-spinners';
 
 const MyTable = () => {
-  const { posItems, isItemsLoading, setCurrentItem, deleteItem } =
+  const { filteredItems, isItemsLoading, setCurrentItem, deleteItem } =
     useItemStore();
 
   if (isItemsLoading) {
@@ -38,7 +38,7 @@ const MyTable = () => {
                 </tr>
               </thead>
               <tbody className="font-medium text-gray-800">
-                {posItems.map((item: ItemShape, index: number) => {
+                {filteredItems.map((item: ItemShape, index: number) => {
                   return (
                     <tr
                       key={`table-item-${item.itemName}-${index}`}

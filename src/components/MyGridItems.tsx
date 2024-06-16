@@ -4,7 +4,7 @@ import MyGridItem from './MyGridItem';
 import GridItemSkeleton from './GridItemSkeleton';
 
 const MyGridItems = () => {
-  const { posItems, isItemsLoading } = useItemStore();
+  const { filteredItems, isItemsLoading } = useItemStore();
 
   if (isItemsLoading) {
     return (
@@ -18,7 +18,7 @@ const MyGridItems = () => {
 
   return (
     <div className="w-full grid grid-cols-3 gap-8">
-      {posItems.map((item: ItemShape, index: number) => {
+      {filteredItems.map((item: ItemShape, index: number) => {
         return (
           <MyGridItem key={`grid-item-${item.itemName}-${index}`} item={item} />
         );

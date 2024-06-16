@@ -9,6 +9,7 @@ import {
   remove as removeDoc,
   onValue,
 } from 'firebase/database';
+import _ from 'lodash';
 
 export interface ItemShape {
   itemId?: string;
@@ -22,6 +23,7 @@ export interface ItemShape {
 
 export interface ItemStoreShape {
   posItems: ItemShape[];
+  filteredItems: ItemShape[];
   currentItem: ItemShape;
   isItemsLoading: boolean;
   isEditing: boolean;
@@ -34,6 +36,7 @@ export interface ItemStoreShape {
   updateItem(): void;
   deleteItem(itemId: string): void;
   subscribeItems(): void;
+  searchItems(itemText: string): void;
 }
 
 const initialCurrentItem = {
@@ -47,6 +50,7 @@ const initialCurrentItem = {
 
 const useItemStore = create<ItemStoreShape>((set, get) => ({
   posItems: [],
+  filteredItems: [],
   currentItem: {
     ...initialCurrentItem,
   },
@@ -87,6 +91,7 @@ const useItemStore = create<ItemStoreShape>((set, get) => ({
 
         set({
           posItems: formattedItems,
+          filteredItems: formattedItems,
           isItemsLoading: false,
         });
         return;
@@ -148,8 +153,16 @@ const useItemStore = create<ItemStoreShape>((set, get) => ({
             itemId,
           }))
         : [];
-      set({ posItems: itemsList });
+      set({ posItems: itemsList, filteredItems: itemsList });
     });
+  },
+  searchItems: (itemText: string) => {
+    const filteredArr = _.filter(get().posItems, (item: ItemShape) => {
+      return _.some(_.omit(item, 'itemId'), (value: any) => {
+        return _.includes(String(value).toLowerCase(), itemText.toLowerCase());
+      });
+    });
+    set({ filteredItems: filteredArr });
   },
 }));
 
