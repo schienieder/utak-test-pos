@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MyTable from './MyTable';
 import MyInput from './MyInput';
 import MyGridItems from './MyGridItems';
+import useItemStore from '../store/useItemStore';
 
 const Main = () => {
   const [searchedItem, setSearchedItem] = useState<string>('');
   const [isGridView, setIsGridView] = useState<boolean>(true);
+  const { getItems } = useItemStore();
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchedItem(e.target.value);
@@ -14,6 +16,10 @@ const Main = () => {
   const onChangeView = () => {
     setIsGridView(!isGridView);
   };
+
+  useEffect(() => {
+    getItems();
+  }, []);
 
   return (
     <div className="w-full flex flex-col items-start p-5 gap-5 mt-16">

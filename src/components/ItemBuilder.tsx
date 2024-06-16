@@ -1,35 +1,25 @@
 import React, { useState } from 'react';
 import MyInput from './MyInput';
-
-interface ItemShape {
-  itemCategory: string;
-  itemName: string;
-  itemOptions: string;
-  itemPrice: string;
-  itemStock: string;
-}
+import useItemStore from '../store/useItemStore';
 
 const ItemBuilder = () => {
-  const [currentItem, setCurrentItem] = useState<ItemShape>({
-    itemCategory: '',
-    itemName: '',
-    itemOptions: '',
-    itemPrice: '',
-    itemStock: '',
-  });
+  const { currentItem, onChangeItemValue, createNewItem } = useItemStore();
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    onChangeItemValue(name, value);
+  };
 
-    console.log(`${name}`, value);
-    setCurrentItem((prevItemVal) => ({
-      ...prevItemVal,
-      [name]: value,
-    }));
+  const onCreateNewItem = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    createNewItem();
   };
 
   return (
-    <form className="h-screen w-full bg-white shadow p-5 flex flex-col gap-y-8 text-gray-800">
+    <form
+      className="h-screen w-full bg-white shadow p-5 flex flex-col gap-y-8 text-gray-800"
+      onSubmit={onCreateNewItem}
+    >
       <h4 className="text-2xl font-black">Add Item</h4>
       <MyInput
         label="Category"
@@ -65,6 +55,14 @@ const ItemBuilder = () => {
         placeholder="Price"
       />
       <MyInput
+        label="Cost"
+        type="text"
+        name="itemCost"
+        onChangeValue={onChangeInput}
+        value={currentItem.itemCost ?? ''}
+        placeholder="Cost"
+      />
+      <MyInput
         label="Stock"
         type="text"
         name="itemStock"
@@ -72,7 +70,10 @@ const ItemBuilder = () => {
         value={currentItem.itemStock ?? ''}
         placeholder="Stock"
       />
-      <button className="w-full bg-orange-600 hover:brightness-90 px-3 py-2 text-white font-bold rounded-lg tracking-wider">
+      <button
+        type="submit"
+        className="w-full bg-orange-500 hover:brightness-90 px-3 py-2 text-white font-bold rounded-lg tracking-wider"
+      >
         Create Item
       </button>
     </form>
