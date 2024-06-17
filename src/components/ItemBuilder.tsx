@@ -60,7 +60,7 @@ const ItemBuilder = () => {
       />
       <MyInput
         label="Price"
-        type="text"
+        type="number"
         name="itemPrice"
         onChangeValue={onChangeInput}
         value={currentItem.itemPrice ?? ''}
@@ -68,7 +68,7 @@ const ItemBuilder = () => {
       />
       <MyInput
         label="Cost"
-        type="text"
+        type="number"
         name="itemCost"
         onChangeValue={onChangeInput}
         value={currentItem.itemCost ?? ''}
@@ -76,7 +76,7 @@ const ItemBuilder = () => {
       />
       <MyInput
         label="Stock"
-        type="text"
+        type="number"
         name="itemStock"
         onChangeValue={onChangeInput}
         value={currentItem.itemStock ?? ''}
