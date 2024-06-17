@@ -119,9 +119,7 @@ const useItemStore = create<ItemStoreShape>((set, get) => ({
         toast.success('Item successfully created', toastOptions);
       })
       .catch(() => {
-        toast.error('There was an error creating item', {
-          position: 'bottom-left',
-        });
+        toast.error('There was an error creating item', toastOptions);
       });
   },
   cancelEditItem: () =>
@@ -141,9 +139,7 @@ const useItemStore = create<ItemStoreShape>((set, get) => ({
         toast.success('Item successfully updated', toastOptions);
       })
       .catch(() => {
-        toast.error('There was an error updating item', {
-          position: 'bottom-left',
-        });
+        toast.error('There was an error updating item', toastOptions);
       });
   },
   deleteItem: (itemId: string) => {
@@ -152,12 +148,10 @@ const useItemStore = create<ItemStoreShape>((set, get) => ({
     removeDoc(deleteItemRef)
       .then(() => {
         set({ isEditing: false, currentItem: initialCurrentItem });
-        toast.info('Item successfully deleted', { position: 'bottom-left' });
+        toast.info('Item successfully deleted', toastOptions);
       })
       .catch(() => {
-        toast.error('There was an error deleting item', {
-          position: 'bottom-left',
-        });
+        toast.error('There was an error deleting item', toastOptions);
       });
   },
   subscribeItems: () => {
