@@ -2,6 +2,8 @@ import React from 'react';
 import MySideBar from './components/MySideBar';
 import Main from './components/Main';
 import ItemBuilder from './components/ItemBuilder';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
@@ -11,6 +13,8 @@ const App = () => {
       <Main />
       {/* MENU BUILDER */}
       <ItemBuilder />
+      {/* TOASTIFY */}
+      <ToastContainer />
     </div>
   );
 };

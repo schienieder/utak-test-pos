@@ -10,6 +10,7 @@ import {
   onValue,
 } from 'firebase/database';
 import _ from 'lodash';
+import { toast, ToastOptions } from 'react-toastify';
 
 export interface ItemShape {
   itemId?: string;
@@ -46,6 +47,10 @@ const initialCurrentItem = {
   itemPrice: '',
   itemCost: '',
   itemStock: 0,
+};
+
+const toastOptions: ToastOptions = {
+  position: 'bottom-left',
 };
 
 const useItemStore = create<ItemStoreShape>((set, get) => ({
@@ -111,9 +116,12 @@ const useItemStore = create<ItemStoreShape>((set, get) => ({
         set({
           currentItem: initialCurrentItem,
         });
+        toast.success('Item successfully created', toastOptions);
       })
       .catch(() => {
-        console.log('There was an error creating item');
+        toast.error('There was an error creating item', {
+          position: 'bottom-left',
+        });
       });
   },
   cancelEditItem: () =>
@@ -130,16 +138,27 @@ const useItemStore = create<ItemStoreShape>((set, get) => ({
           isEditing: false,
           editItemId: '',
         });
+        toast.success('Item successfully updated', toastOptions);
       })
       .catch(() => {
-        console.log('There was an error updating item');
+        toast.error('There was an error updating item', {
+          position: 'bottom-left',
+        });
       });
   },
   deleteItem: (itemId: string) => {
     const db = getDatabase(app);
     const deleteItemRef = ref(db, 'items/' + itemId);
-    removeDoc(deleteItemRef);
-    set({ isEditing: false, currentItem: initialCurrentItem });
+    removeDoc(deleteItemRef)
+      .then(() => {
+        set({ isEditing: false, currentItem: initialCurrentItem });
+        toast.info('Item successfully deleted', { position: 'bottom-left' });
+      })
+      .catch(() => {
+        toast.error('There was an error deleting item', {
+          position: 'bottom-left',
+        });
+      });
   },
   subscribeItems: () => {
     const db = getDatabase(app);

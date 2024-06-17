@@ -93,7 +93,7 @@ const MyGridItem = ({ item }: { item: ItemShape }) => {
       {/*  */}
       <div className="w-full border-b border-gray-300"></div>
       {/*  */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center gap-5">
         <div className="flex gap-x-1 items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
